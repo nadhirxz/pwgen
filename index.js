@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const { program } = require('commander');
 const { generatePassword } = require('./utils/generate');
+const { savePassword } = require('./utils/save');
 
 program.version('1.0.0').description('Password generator');
 
@@ -11,8 +12,13 @@ program
 	.option('-nl, --no-letters', 'no letters')
 	.option('-nn, --no-numbers', 'no numbers')
 	.option('-ns, --no-symbols', 'no symbols')
+	.option('-s, --save', 'save password to file')
+	.option('-o, --output <filename>', 'output file', 'passwords.txt')
 	.parse();
 
-const { length, numbers, symbols, uppercase, lowercase } = program.opts();
+const { length, numbers, symbols, uppercase, lowercase, save, output } = program.opts();
+const password = generatePassword(length, numbers, symbols, uppercase, lowercase);
 
-console.log('Generated password:', generatePassword(length, numbers, symbols, uppercase, lowercase));
+console.log('Generated password:', password);
+
+if (save) savePassword(password, output);
