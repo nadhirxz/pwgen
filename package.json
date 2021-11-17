@@ -1,5 +1,5 @@
 {
-	"name": "passgen",
+	"name": "pwgen",
 	"version": "1.0.0",
 	"description": "Simple password generator",
 	"main": "index.js",
