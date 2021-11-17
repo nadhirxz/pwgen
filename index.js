@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 const { program } = require('commander');
+const clipboardy = require('clipboardy');
 const { generatePassword } = require('./utils/generate');
 const { savePassword } = require('./utils/save');
 
@@ -14,11 +15,17 @@ program
 	.option('-ns, --no-symbols', 'no symbols')
 	.option('-s, --save', 'save password to file')
 	.option('-o, --output <filename>', 'output file', 'passwords.txt')
+	.option('-nc, --no-copy', 'disable copying password to clipboard')
 	.parse();
 
-const { length, numbers, symbols, uppercase, lowercase, save, output } = program.opts();
+const { length, numbers, symbols, uppercase, lowercase, save, output, copy } = program.opts();
 const password = generatePassword(length, numbers, symbols, uppercase, lowercase);
 
 console.log('Generated password:', password);
+
+if (copy) {
+	clipboardy.writeSync(password);
+	console.log('Password copied to clipboard')
+}
 
 if (save) savePassword(password, output);
